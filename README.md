@@ -1,7 +1,7 @@
 # LinkVerse
 
 
-    linkverse/
+    backend/
     ├── config/
     │   ├── db.js                # MongoDB connection setup
     │   └── constants.js         # Constants like JWT secret, API routes, etc.
