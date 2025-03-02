@@ -1,5 +1,7 @@
 const express = require('express');
 const {
+  getAllPosts,
+  getPostById,
   createPost,
   editPost,
   deletePost,
@@ -11,6 +13,8 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Routes
+router.get('/', getAllPosts); // Get all posts
+router.get('/:id', getPostById); // Get a single post
 router.post('/',authMiddleware, createPost); // Ensure createPost is a function
 router.put('/:id', authMiddleware, editPost);
 router.delete('/:id', authMiddleware, deletePost);

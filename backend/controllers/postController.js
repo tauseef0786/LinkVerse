@@ -2,6 +2,36 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
 
+
+// Get all posts
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().populate('user', 'name').populate('comments');
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get a single post by ID
+const getPostById = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+      .populate('user', 'name')
+      .populate({
+        path: 'comments',
+        populate: { path: 'user', select: 'name' }
+      });
+
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 // Create a post
 const createPost = async (req, res) => {
   const { content, media } = req.body;
@@ -87,4 +117,4 @@ const addComment = async (req, res) => {
   }
 };
 
-module.exports = { createPost, editPost, deletePost, likePost, addComment };
+module.exports = { createPost, editPost, deletePost, likePost, addComment ,getAllPosts,getPostById};
